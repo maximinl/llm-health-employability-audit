@@ -1,0 +1,21 @@
+.DS_Store
+.venv/
+__pycache__/
+*.pyc
+
+# Local secrets and API credentials
+.env
+.env.*
+!.env.example
+
+# Keep raw and processed data local unless explicitly prepared for release.
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Generated outputs. Keep only folder scaffolding in git.
+results/figures/*
+results/tables/*
+!results/figures/.gitkeep
+!results/tables/.gitkeep
