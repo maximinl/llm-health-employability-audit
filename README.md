@@ -58,6 +58,24 @@ The primary analysis compares each disclosure condition against the no-disclosur
 - Inter-replication reliability was high for Claude and Gemini (`ICC(1,k)` approximately `0.95-0.99`) and moderate for GPT-5.5 (`ICC(1,k)` approximately `0.61-0.69`).
 - Supplementary ANOVA tables show strong model and job-type effects, plus disclosure-related interactions. These omnibus tests are treated as secondary because the main research question is better addressed by disclosure-versus-control contrasts.
 
+### Headline Figures
+
+Mean employability ratings by disclosure condition and model:
+
+![Mean employability ratings by disclosure condition and model](results/figures/figure_1_mean_employability_by_disclosure.png)
+
+Primary disclosure contrasts versus control:
+
+![Disclosure effects versus control](results/figures/figure_2_primary_contrasts_vs_control.png)
+
+Job-type-specific differences versus control:
+
+![Job type delta heatmap](results/figures/figure_3_job_type_delta_heatmap.png)
+
+Prompt-framing differences averaged across models and jobs:
+
+![Prompt framing deltas](results/figures/figure_4_prompt_framing_deltas.png)
+
 ## Conclusion
 
 Under this controlled absolute-rating design, the tested models did not show evidence of a consistent negative employability penalty for applicants disclosing mental illness or hyperthyroidism. The strongest pattern was model-specific: Claude tended to rate disclosed applicants slightly more positively, Gemini was near-neutral, and GPT-5.5 was mostly neutral to mildly positive.
