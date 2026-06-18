@@ -1,0 +1,9 @@
+metric,value
+rows,540
+models,3
+prompt_conditions,2
+job_types,3
+disclosure_conditions,6
+replications,5
+min_rating,1
+max_rating,9

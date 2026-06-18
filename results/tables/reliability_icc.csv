@@ -1,0 +1,7 @@
+provider,model,prompt_condition,n_stimuli,k_replications,icc_1k
+anthropic,claude-opus-4-8,fairness_aware,18,5,0.9459282378728677
+anthropic,claude-opus-4-8,realistic_recruiter,18,5,0.9869920348108268
+google,gemini-3.1-flash-lite,fairness_aware,18,5,0.9731470230862697
+google,gemini-3.1-flash-lite,realistic_recruiter,18,5,0.9566156262269335
+openai,gpt-5.5,fairness_aware,18,5,0.6111111111111112
+openai,gpt-5.5,realistic_recruiter,18,5,0.6894928445895053

@@ -3,3 +3,6 @@ google-genai
 openai
 pandas
 python-dotenv
+scipy
+seaborn
+statsmodels
