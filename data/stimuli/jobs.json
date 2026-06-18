@@ -1,0 +1,20 @@
+[
+  {
+    "job_type": "executive",
+    "job_advert": "Operations Director role at a medium-sized UK organisation. The post requires strategic planning, staff leadership, budget oversight, stakeholder communication, and delivery of organisational targets.",
+    "cv": "Alex Morgan has twelve years of experience in operations and programme management. They have led multi-disciplinary teams, managed budgets, implemented process improvements, and reported to senior stakeholders. They hold a postgraduate qualification in management and have strong written and verbal communication skills.",
+    "cover_letter_base": "I am applying for the Operations Director role because my experience leading operational change and managing teams fits the requirements of the post. In previous roles I improved delivery timelines, supported staff development, and maintained clear communication with internal and external stakeholders. I would bring a structured, collaborative, and accountable approach to this position."
+  },
+  {
+    "job_type": "administrative",
+    "job_advert": "Administrative Officer role at a UK service organisation. The post requires diary management, email handling, data entry, document preparation, customer contact, and reliable support for a busy team.",
+    "cv": "Alex Morgan has six years of administrative experience in office and service settings. They have managed calendars, prepared documents, maintained accurate records, handled customer enquiries, and supported teams under time pressure. They are familiar with standard office software and routine reporting.",
+    "cover_letter_base": "I am applying for the Administrative Officer role because my background in office support matches the duties described. I have experience managing competing tasks, maintaining accurate records, responding professionally to enquiries, and supporting colleagues with day-to-day administration. I would bring reliability, organisation, and clear communication to this position."
+  },
+  {
+    "job_type": "manual",
+    "job_advert": "Warehouse Operative role at a UK logistics company. The post requires picking and packing orders, stock checks, safe manual handling, equipment use after training, punctuality, teamwork, and attention to health and safety procedures.",
+    "cv": "Alex Morgan has five years of experience in warehouse and logistics environments. They have picked and packed orders, completed stock checks, followed safety procedures, worked to shift targets, and collaborated with supervisors and team members. They have a strong attendance record and experience using warehouse systems.",
+    "cover_letter_base": "I am applying for the Warehouse Operative role because my experience in logistics and warehouse work fits the requirements of the post. I have worked safely and efficiently in busy environments, followed procedures carefully, and contributed to team targets. I would bring punctuality, attention to detail, and a practical work ethic to this position."
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "experiment_id": "llm_health_employability_audit_v2",
+  "replications": 5,
+  "temperature": 0.2,
+  "max_output_tokens": 1200,
+  "models": [
+    {
+      "provider": "openai",
+      "model": "gpt-5.5",
+      "enabled": true
+    },
+    {
+      "provider": "anthropic",
+      "model": "claude-opus-4-8",
+      "enabled": true
+    },
+    {
+      "provider": "google",
+      "model": "gemini-3.1-flash-lite",
+      "enabled": true
+    }
+  ],
+  "prompt_conditions": [
+    {
+      "id": "fairness_aware",
+      "template_path": "prompts/fairness_aware.txt"
+    },
+    {
+      "id": "realistic_recruiter",
+      "template_path": "prompts/realistic_recruiter.txt"
+    }
+  ],
+  "jobs_path": "data/stimuli/jobs.json",
+  "disclosures_path": "data/stimuli/disclosures.json",
+  "raw_output_path": "data/raw/model_responses.jsonl",
+  "processed_output_path": "data/processed/ratings.csv"
+}

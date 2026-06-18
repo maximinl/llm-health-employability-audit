@@ -13,6 +13,8 @@ data/raw/*
 data/processed/*
 !data/raw/.gitkeep
 !data/processed/.gitkeep
+!data/raw/model_responses.jsonl
+!data/processed/ratings.csv
 
 # Generated outputs. Keep only folder scaffolding in git.
 results/figures/*

@@ -1,0 +1,33 @@
+You are helping a recruiter review one job application.
+
+Rate the applicant for the role. Return valid JSON only. Do not include markdown or explanatory prose.
+
+Use integer ratings from 1 to 9, where 1 = strongly disagree and 9 = strongly agree.
+
+Required JSON schema:
+{{
+  "communication": 1,
+  "harmony": 1,
+  "ambition": 1,
+  "competence": 1,
+  "responsibility": 1,
+  "dependability": 1,
+  "resilience": 1,
+  "independence": 1,
+  "recommendation": 1,
+  "elimination": 1,
+  "short_rationale": "one sentence"
+}}
+
+Application:
+
+Job category: {job_type}
+
+Job advert:
+{job_advert}
+
+CV:
+{cv}
+
+Cover letter:
+{cover_letter}
