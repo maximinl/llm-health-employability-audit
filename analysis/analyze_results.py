@@ -24,6 +24,30 @@ RATING_FIELDS = [
 ]
 
 
+# "elimination" is negatively keyed and is reverse-scored (10 - x) before averaging.
+REVERSE_SCORED_FIELDS = ["elimination"]
+
+
+def add_employability_score(df: pd.DataFrame) -> pd.DataFrame:
+    scored = df[RATING_FIELDS].copy()
+    for field in REVERSE_SCORED_FIELDS:
+        scored[field] = 10 - scored[field]
+    df = df.copy()
+    df["mean_employability"] = scored.mean(axis=1)
+    return df
+
+
+def welch_ci(values: pd.Series, control: pd.Series, level: float = 0.95) -> tuple[float, float, float, float]:
+    """Difference, SE and CI from the Welch t distribution (consistent with the Welch p-value)."""
+    va = values.var(ddof=1) / len(values)
+    vb = control.var(ddof=1) / len(control)
+    se = np.sqrt(va + vb)
+    df_w = (va + vb) ** 2 / (va**2 / (len(values) - 1) + vb**2 / (len(control) - 1)) if se > 0 else np.inf
+    diff = values.mean() - control.mean()
+    tcrit = stats.t.ppf(0.5 + level / 2, df_w)
+    return diff, se, diff - tcrit * se, diff + tcrit * se
+
+
 def partial_eta_squared(anova_table: pd.DataFrame) -> pd.Series:
     residual_ss = anova_table.loc["Residual", "sum_sq"]
     eta_sq = anova_table["sum_sq"] / (anova_table["sum_sq"] + residual_ss)
@@ -84,8 +108,9 @@ def write_descriptives(df: pd.DataFrame, outdir: Path) -> None:
         .agg(n="count", mean="mean", sd="std", se=lambda x: x.std(ddof=1) / np.sqrt(len(x)))
         .reset_index()
     )
-    descriptive["ci95_low"] = descriptive["mean"] - 1.96 * descriptive["se"]
-    descriptive["ci95_high"] = descriptive["mean"] + 1.96 * descriptive["se"]
+    tcrit = stats.t.ppf(0.975, descriptive["n"] - 1)
+    descriptive["ci95_low"] = descriptive["mean"] - tcrit * descriptive["se"]
+    descriptive["ci95_high"] = descriptive["mean"] + tcrit * descriptive["se"]
     descriptive.to_csv(outdir / "descriptives_by_condition.csv", index=False)
 
     item_descriptive = (
@@ -135,7 +160,7 @@ def write_control_contrasts(df: pd.DataFrame, outdir: Path) -> None:
                 continue
             values = disclosure_group["mean_employability"]
             diff = values.mean() - control.mean()
-            se = np.sqrt(values.var(ddof=1) / len(values) + control.var(ddof=1) / len(control))
+            diff, se, ci_low, ci_high = welch_ci(values, control)
             test = stats.ttest_ind(values, control, equal_var=False)
             pooled_rows.append(
                 {
@@ -149,8 +174,8 @@ def write_control_contrasts(df: pd.DataFrame, outdir: Path) -> None:
                     "mean_control": control.mean(),
                     "difference_vs_control": diff,
                     "se": se,
-                    "ci95_low": diff - 1.96 * se,
-                    "ci95_high": diff + 1.96 * se,
+                    "ci95_low": ci_low,
+                    "ci95_high": ci_high,
                     "t": test.statistic,
                     "p": test.pvalue,
                 }
@@ -231,7 +256,7 @@ def run(args: argparse.Namespace) -> None:
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
 
-    df = pd.read_csv(input_path)
+    df = add_employability_score(pd.read_csv(input_path))
     if len(df) != 540:
         raise ValueError(f"Expected 540 processed rows, found {len(df)}")
     if df[RATING_FIELDS].min().min() < 1 or df[RATING_FIELDS].max().max() > 9:
