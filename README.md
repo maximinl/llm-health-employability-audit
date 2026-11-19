@@ -45,18 +45,24 @@ Job types:
 - Provides scripts for experiment collection, statistical analysis, and figure generation.
 - Includes raw responses, processed ratings, result tables, and PNG figures.
 
+## Scoring Correction (Revision)
+
+The ten ratings include `elimination`, which models treat as agreement that the applicant should be eliminated (mean 1.1 to 1.5, versus 7.6 to 8.5 for `recommendation`). The original analysis averaged it unreversed. It is now reverse-scored (`10 - x`) before averaging, in `analysis/run_experiment.py`, `analysis/analyze_results.py` and `data/processed/ratings.csv` (only the `mean_employability` column changed). Confidence intervals for contrasts now use the Welch t distribution, consistent with the Welch p-values (previously a normal approximation). All tables and figures have been regenerated.
+
+Sampling note: the configured temperature (0.2) was applied only to Gemini. The GPT-5.5 endpoint does not accept a temperature parameter and the Claude request did not pass one, so both ran with provider default sampling.
+
 ## Headline Findings
 
-The primary analysis compares each disclosure condition against the no-disclosure control within each model and prompt condition, pooled across job types.
+The primary analysis compares each disclosure condition against the no-disclosure control within each model and prompt condition, pooled across job types. Full analyses for the revised manuscript are in `analysis/revision/` (outputs in `results/revision/`).
 
-- The dataset is balanced and complete: `540/540` valid processed rows.
-- All ratings in the processed dataset fall within the intended `1-9` range.
-- No disclosure condition showed a Bonferroni-significant negative penalty versus control in the primary contrast table.
-- The largest primary effects were small positive shifts, especially for Claude Opus 4.8. For example, Claude's fairness-aware eating-disorder disclosure contrast was `+0.27` points versus control, with a 95% CI of `[+0.08, +0.46]`, but this did not survive Bonferroni correction.
-- Gemini 3.1 Flash-Lite was closest to neutral. Its pooled disclosure contrasts ranged from `-0.07` to `+0.13` under the fairness-aware prompt and from `+0.02` to `+0.09` under the realistic recruiter prompt.
-- GPT-5.5 was also close to neutral to mildly positive, with pooled disclosure contrasts from `-0.01` to `+0.13` under the fairness-aware prompt and from `+0.03` to `+0.16` under the realistic recruiter prompt.
-- Inter-replication reliability was high for Claude and Gemini (`ICC(1,k)` approximately `0.95-0.99`) and moderate for GPT-5.5 (`ICC(1,k)` approximately `0.61-0.69`).
-- Supplementary ANOVA tables show strong model and job-type effects, plus disclosure-related interactions. These omnibus tests are treated as secondary because the main research question is better addressed by disclosure-versus-control contrasts.
+- The dataset is balanced and complete: `540/540` valid processed rows (3 templates, 18 stimuli, 108 cells, 540 model calls).
+- No disclosure condition produced a penalty: all 30 contrasts were non-inferior at a `-0.5`-point margin, 29 of 30 at `-0.25`, and none was significantly negative.
+- Disclosure tended to raise ratings. Pooled effect `+0.17` points (95% CrI `0.14` to `0.20`); Claude Opus 4.8 `+0.30`, GPT-5.5 `+0.16`, Gemini 3.1 Flash-Lite `+0.06`.
+- Increases were concentrated on perceived resilience and independence, with lower agreement that the applicant should be eliminated.
+- Mental health disclosures did not differ meaningfully from hyperthyroidism (pooled `-0.03`, 95% CrI `-0.06` to `0.01`).
+- Removing the fairness instruction did not produce penalties; it increased GPT-5.5's positive disclosure effects (`+0.15`).
+- Two-sided equivalence to zero held for 25 of 30 contrasts at `+/-0.5` but for 8 at `+/-0.25`.
+- Single-call reliability ICC(1,1): Claude `.77`/`.96`, Gemini `.90`/`.82`, GPT-5.5 `.25`/`.42`. GPT-5.5's lower ICC reflects mainly a narrow spread across stimuli; its within-stimulus SD is similar to Claude's under the fairness-aware prompt.
 
 ### Headline Figures
 
@@ -78,9 +84,7 @@ Prompt-framing differences averaged across models and jobs:
 
 ## Conclusion
 
-Under this controlled absolute-rating design, the tested models did not show evidence of a consistent negative employability penalty for applicants disclosing mental illness or hyperthyroidism. The strongest pattern was model-specific: Claude tended to rate disclosed applicants slightly more positively, Gemini was near-neutral, and GPT-5.5 was mostly neutral to mildly positive.
-
-The cautious interpretation is that current aligned models may avoid some of the explicit penalization seen in human hiring-stigma studies when they are asked to rate a single standardized applicant. This does not prove that LLMs are unbiased in recruitment. Results may differ under forced-choice ranking, larger candidate pools, less structured prompts, adversarial phrasing, or real-world recruiter workflows.
+In this bounded audit of fixed, standardised applications, a disclosure statement describing a well-managed mental or somatic health condition did not produce a practically meaningful penalty on a structured employability composite under either prompt. Instead, disclosure produced small increases, largest for Claude. These results concern absolute ratings of three application templates and do not show how the models behave in ranking, selection or real-world recruiter workflows.
 
 ## Structure
 

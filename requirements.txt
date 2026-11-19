@@ -6,3 +6,7 @@ python-dotenv
 scipy
 seaborn
 statsmodels
+matplotlib
+pingouin
+pymc
+arviz

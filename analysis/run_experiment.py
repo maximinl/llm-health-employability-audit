@@ -46,6 +46,20 @@ def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+# "elimination" is negatively keyed (agreement that the applicant should be eliminated),
+# so it is reverse-scored on the 1-9 scale before averaging.
+REVERSE_SCORED_FIELDS = {"elimination"}
+SCALE_MIN, SCALE_MAX = 1, 9
+
+
+def employability_score(ratings: dict[str, Any]) -> float:
+    scored = [
+        (SCALE_MIN + SCALE_MAX - ratings[field]) if field in REVERSE_SCORED_FIELDS else ratings[field]
+        for field in RATING_FIELDS
+    ]
+    return sum(scored) / len(scored)
+
+
 def build_cover_letter(base: str, disclosure_text: str) -> str:
     if not disclosure_text:
         return base
@@ -244,7 +258,7 @@ def rebuild_processed(raw_output_path: Path, processed_output_path: Path) -> Non
                 if record.get("status") != "ok":
                     continue
                 ratings = record["ratings"]
-                mean_employability = sum(ratings[field] for field in RATING_FIELDS) / len(RATING_FIELDS)
+                mean_employability = employability_score(ratings)
                 rows.append(
                     {
                         "experiment_id": record["experiment_id"],
